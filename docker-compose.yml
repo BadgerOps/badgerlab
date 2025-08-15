@@ -1,0 +1,20 @@
+services:
+  stepca:
+    image: smallstep/step-ca:latest
+    container_name: stepca
+    environment:
+      - STEPPATH=/home/step
+    ports:
+      - "${PORT}:9000"
+    volumes:
+      - "${VOLUME}:/home/step"
+    command:
+      - /usr/local/bin/step-ca
+      - /home/step/config/ca.json
+      - --password-file=/home/step/secrets/password
+    restart: unless-stopped
+
+volumes:
+  step:
+    external: true
+    name: "${VOLUME}"
